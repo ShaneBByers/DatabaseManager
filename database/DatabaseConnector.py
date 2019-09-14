@@ -1,6 +1,6 @@
 import mysql.connector
 import logging
-from DatabaseEntity import DBEntity
+from .DatabaseEntity import DBEntity
 
 
 class DatabaseConnector:
