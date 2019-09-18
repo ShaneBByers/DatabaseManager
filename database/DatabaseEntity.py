@@ -140,6 +140,10 @@ class WhereStatement:
     def val(self):
         if self.__val is None:
             return "NULL"
+        elif isinstance(self.__val, str):
+            return "\"" + self.__val + "\""
+        elif isinstance(self.__val, datetime.datetime):
+            return "\"" + self.__val.strftime('%Y-%m-%d %H:%M:%S') + "\""
         else:
             return self.__val
 
