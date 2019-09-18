@@ -18,6 +18,8 @@ class DBEntity:
         self.custom_where_clause = None
         self.__select_cols_names = None
         self.__where_clause_list = None
+        self.__order_by_col_names = None
+        self.__order_by_asc = True
 
     def get(self, col):
         return self._record[col.value]
@@ -35,6 +37,10 @@ class DBEntity:
         if self.__where_clause_list is None:
             self.__where_clause_list = []
         self.__where_clause_list.append(WhereStatement(col.value, val, op))
+
+    def add_order_by(self, col, asc=True):
+        self.__order_by_col_names.append(col.value)
+        self.__order_by_asc = asc
 
     @property
     def where_clause(self):
@@ -123,6 +129,20 @@ class DBEntity:
                 return_string += ", "
 
         return return_string
+
+    @property
+    def order_by_clause(self):
+        if self.__order_by_col_names is None:
+            return None
+        else:
+            return_string = "ORDER BY "
+            for col in self.__order_by_col_names:
+                return_string += col + " "
+            if self.__order_by_asc:
+                return_string += "ASC"
+            else:
+                return_string += "DESC"
+            return return_string
 
 
 class WhereStatement:

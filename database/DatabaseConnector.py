@@ -27,6 +27,8 @@ class DatabaseConnector:
         self.select_statement += entity.table.table_name()
         if entity.where_clause is not None:
             self.select_statement += entity.where_clause
+        if entity.order_by_clause is not None:
+            self.select_statement += entity.order_by_clause
         self.select_statement += ";"
         self.logger.info("Created statement: '" + self.select_statement + "'")
 
