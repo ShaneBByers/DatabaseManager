@@ -39,6 +39,8 @@ class DBEntity:
         self.__where_clause_list.append(WhereStatement(col.value, val, op))
 
     def add_order_by(self, col, asc=True):
+        if self.__order_by_col_names is None:
+            self.__order_by_col_names = []
         self.__order_by_col_names.append(col.value)
         self.__order_by_asc = asc
 

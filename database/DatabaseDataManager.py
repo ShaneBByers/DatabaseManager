@@ -116,5 +116,19 @@ class DatabaseDataManager:
             for column in columns:
                 self.file_manager.write_line()
                 self.file_manager.write(column['Field'].lower() + " = '" + column['Field'] + "'", tabs=1)
-        self.file_manager.write_line()
+        self.file_manager.write_line(lines=3)
+
+        self.file_manager.write("DB_TABLES = {")
+        count = 0
+        for table_name in table_info:
+            name_words = table_name.split('_')
+            name = ''
+            for name_word in name_words:
+                name += name_word.capitalize()
+            self.file_manager.write("'" + table_name + "': " + name)
+            count += 1
+            if count < len(table_info):
+                self.file_manager.write_line(",")
+                self.file_manager.write(spaces=13)
+        self.file_manager.write_line("}")
         self.file_manager.close()
