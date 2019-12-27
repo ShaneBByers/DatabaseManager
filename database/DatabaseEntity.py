@@ -137,7 +137,7 @@ class DBEntity:
         if self.__order_by_col_names is None:
             return None
         else:
-            return_string = "ORDER BY "
+            return_string = " ORDER BY "
             for col in self.__order_by_col_names:
                 return_string += col + " "
             if self.__order_by_asc:
