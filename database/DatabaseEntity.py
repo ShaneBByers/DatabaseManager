@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, date
 
 
 class DBEntity:
@@ -92,8 +92,10 @@ class DBEntity:
             else:
                 if isinstance(self._record[col], str):
                     return_string += "\"" + str(self._record[col]) + "\", "
-                elif isinstance(self._record[col], datetime.datetime):
+                elif isinstance(self._record[col], datetime):
                     return_string += "\"" + self._record[col].strftime('%Y-%m-%d %H:%M:%S') + "\", "
+                elif isinstance(self._record[col], date):
+                    return_string += "\"" + self._record[col].strftime('%Y-%m-%d') + "\", "
                 else:
                     return_string += str(self._record[col]) + ", "
         else:
@@ -102,8 +104,10 @@ class DBEntity:
             else:
                 if isinstance(self._record[col_list[-1]], str):
                     return_string += "\"" + str(self._record[col_list[-1]]) + "\""
-                elif isinstance(self._record[col_list[-1]], datetime.datetime):
+                elif isinstance(self._record[col_list[-1]], datetime):
                     return_string += "\"" + self._record[col_list[-1]].strftime('%Y-%m-%d %H:%M:%S') + "\""
+                elif isinstance(self._record[col_list[-1]], date):
+                    return_string += "\"" + self._record[col_list[-1]].strftime('%Y-%m-%d') + "\""
                 else:
                     return_string += str(self._record[col_list[-1]])
         return_string += ")"
@@ -122,8 +126,10 @@ class DBEntity:
             val = self._record[col]
             if isinstance(val, str):
                 return_string += "\"" + val + "\""
-            elif isinstance(val, datetime.datetime):
+            elif isinstance(val, datetime):
                 return_string += "\"" + val.strftime('%Y-%m-%d %H:%M:%S') + "\""
+            elif isinstance(val, date):
+                return_string += "\"" + val.strftime('%Y-%m-%d') + "\""
             else:
                 return_string += str(val)
             count += 1
@@ -164,8 +170,10 @@ class WhereStatement:
             return "NULL"
         elif isinstance(self.__val, str):
             return "\"" + self.__val + "\""
-        elif isinstance(self.__val, datetime.datetime):
+        elif isinstance(self.__val, datetime):
             return "\"" + self.__val.strftime('%Y-%m-%d %H:%M:%S') + "\""
+        elif isinstance(self.__val, date):
+            return "\"" + self.__val.strftime('%Y-%m-%d') + "\""
         else:
             return self.__val
 
