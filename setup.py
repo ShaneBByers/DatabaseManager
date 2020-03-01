@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="database-manager",
-    version="0.0.21",
+    version="0.1.0",
     author="Shane Byers",
     author_email="shane@shane-byers.com",
     description="Database Manager for MySQL",

@@ -5,16 +5,17 @@ import logging
 
 class DatabaseDataManager:
 
-    def __init__(self, logger_name, db_host, db_username, db_password, db_name):
-        self.connector = DatabaseConnector(logger_name, db_host, db_username, db_password, db_name)
+    def __init__(self, db_host, db_username, db_password, db_name):
+        self.connector = DatabaseConnector(db_host, db_username, db_password, db_name)
         self.insert_statement = ""
         self.update_statement = ""
-        self.file_manager = FileDataManager(logger_name)
-        self.logger = logging.getLogger(logger_name)
+        self.file_manager = FileDataManager()
+        self.logger = logging.getLogger(__name__)
 
     def insert(self, entities, commit=True):
         last_row_id = None
         if isinstance(entities, list):
+            self.logger.debug("Attempting to insert " + str(len(entities)) + " entities.")
             for entity in entities:
                 self.connector.create_insert(entity)
                 last_row_id = self.connector.execute_insert()
@@ -23,6 +24,7 @@ class DatabaseDataManager:
             last_row_id = self.connector.execute_insert()
         if commit:
             last_row_id = self.connector.commit_execute()
+        self.logger.debug("Successful insert with last row ID: " + str(last_row_id))
 
         return last_row_id
 
@@ -39,6 +41,7 @@ class DatabaseDataManager:
     def update(self, entities, commit=True):
         last_row_id = None
         if isinstance(entities, list):
+            self.logger.debug("Attempting to update " + str(len(entities)) + " entities.")
             for entity in entities:
                 self.connector.create_update(entity)
                 last_row_id = self.connector.execute_update()
@@ -47,12 +50,14 @@ class DatabaseDataManager:
             last_row_id = self.connector.execute_update()
         if commit:
             last_row_id = self.connector.commit_execute()
+        self.logger.debug("Successful update with last row ID: " + str(last_row_id))
 
         return last_row_id
 
     def delete(self, entities, commit=True):
         last_row_id = None
         if isinstance(entities, list):
+            self.logger.debug("Attempting to delete " + str(len(entities)) + " entities.")
             for entity in entities:
                 self.connector.create_delete(entity)
                 last_row_id = self.connector.execute_delete()
@@ -61,6 +66,7 @@ class DatabaseDataManager:
             last_row_id = self.connector.execute_delete()
         if commit:
             last_row_id = self.connector.commit_execute()
+        self.logger.debug("Successful delete with last row ID: " + str(last_row_id))
 
         return last_row_id
 
